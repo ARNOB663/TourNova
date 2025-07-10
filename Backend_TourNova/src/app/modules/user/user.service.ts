@@ -9,8 +9,16 @@ const createUser = async (payload:Partial<IUser>) =>{
     })
     return user
  }
+
+const getAllUsers = async () =>{
+    const users = await User.find({})
+    return users;
+}
+
+
  export const UserService = {
-    createUser
+    createUser,
+    getAllUsers
  }
 
  //route matching app.ts ->index.ts -> user.route -> user.contoller -> user.service -> model -> DB

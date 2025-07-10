@@ -1,23 +1,50 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from "express"
 import httpStatus from "http-status-codes"
 import { UserService } from "./user.service";
+import catchAsync from "../../utils/catchAsync";
+// import AppError from "../../errorHelpers/AppError";
 
-//Create user
-const createUser = async (req:Request,res:Response,next:NextFunction)=>{
-    try{
+
+
+const createUser = catchAsync(async(req:Request,res:Response ,next:NextFunction)=>{
         const user = await UserService.createUser(req.body)
-
         res.status(httpStatus.CREATED).json({
             message:"User Created Success Fully",
             user
         })
-    }
-    catch(err: any){
-       next(err)
-    }
-} 
+
+})
+
+//Create user
+// const createUser = async (req:Request,res:Response,next:NextFunction)=>{
+//     try{ 
+//     //    throw new AppError(httpStatus.BAD_REQUEST,"FAKE ERROR")
+//         const user = await UserService.createUser(req.body)
+
+//         res.status(httpStatus.CREATED).json({
+//             message:"User Created Success Fully",
+//             user
+//         })
+//     }
+//     catch(err: any){
+//        next(err)
+//     }
+// }
+
+const getAllUsers = catchAsync(async(req:Request,res:Response ,next:NextFunction)=>{
+    const users = await UserService.getAllUsers()
+
+    res.status(httpStatus.OK).json({
+        success: true,
+        message:"All User Retrived Succesfully",
+        data:users
+    })
+
+})
+
 export const UserControllers = {
-    createUser
+    createUser,
+     getAllUsers
 }
